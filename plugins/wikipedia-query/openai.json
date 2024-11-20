@@ -1,0 +1,67 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Wikipedia Query",
+    "description": "A tool for interacting with and fetching data from the Wikipedia API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": ""
+    }
+  ],
+  "paths": {
+    "/api/tools/wikipedia-query": {
+      "post": {
+        "operationId": "WikipediaQuery",
+        "x-openai-isConsequential": false,
+        "summary": "Fetches and summarizes Wikipedia articles based on a search query",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["query"],
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "The search query to find relevant Wikipedia articles"
+                  },
+                  "topKResults": {
+                    "type": "integer",
+                    "description": "Number of top results to return",
+                    "default": 3
+                  },
+                  "maxDocContentLength": {
+                    "type": "integer",
+                    "description": "Maximum length of the returned content",
+                    "default": 4000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Wikipedia article summaries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "Concatenated summaries of the found Wikipedia articles"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Arxiv Search",
+    "description": "Run Arxiv search and get the article information",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": ""
+    }
+  ],
+  "paths": {
+    "/api/tools/arxiv": {
+      "post": {
+        "operationId": "Arxiv",
+        "x-openai-isConsequential": false,
+        "summary": "Search for academic papers on Arxiv and retrieve article information",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "searchQuery",
+                  "sortBy",
+                  "sortOrder",
+                  "start",
+                  "maxResults"
+                ],
+                "properties": {
+                  "searchQuery": {
+                    "type": "string",
+                    "description": "Same as the search_query parameter rules of the arxiv API"
+                  },
+                  "sortBy": {
+                    "type": "string",
+                    "enum": ["relevance", "lastUpdatedDate", "submittedDate"],
+                    "description": "How to sort the results"
+                  },
+                  "sortOrder": {
+                    "type": "string",
+                    "enum": ["ascending", "descending"],
+                    "description": "Order of the sorted results"
+                  },
+                  "start": {
+                    "type": "integer",
+                    "description": "The index of the first returned result",
+                    "default": 0
+                  },
+                  "maxResults": {
+                    "type": "integer",
+                    "description": "The number of results returned by the query",
+                    "default": 10
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response with Arxiv search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "XML formatted Arxiv API response containing article information"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

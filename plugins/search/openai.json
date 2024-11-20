@@ -1,0 +1,78 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Search API",
+    "description": "A search engine useful for answering questions about current events",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": ""
+    }
+  ],
+  "paths": {
+    "/api/tools/search": {
+      "post": {
+        "operationId": "SearchApi",
+        "x-openai-isConsequential": false,
+        "summary": "Search for information using various search engines and return formatted results",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["input", "apiKey", "baseUrl", "searchEngine"],
+                "properties": {
+                  "input": {
+                    "type": "string",
+                    "description": "The search query to be executed"
+                  },
+                  "params": {
+                    "type": "object",
+                    "description": "Additional search parameters",
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful search response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "Formatted search results which may include answer box, knowledge graph, organic results, jobs, videos, or images"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message explaining what went wrong"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
